@@ -44,6 +44,10 @@
         .entry-text {
             flex: 1;
         }
+        .checkbox-container label {
+            display: inline-block;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +58,7 @@
                 <input class="mdl-textfield__input" type="text" id="newInitial">
                 <label class="mdl-textfield__label" for="newInitial">Add Name</label>
             </div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addInitial()">Add Initial</button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addInitial()">Add</button>
         </div>
         <div id="initialsList" class="mdl-typography--body-1"></div>
         <div class="entry">
@@ -66,14 +70,13 @@
                 <input class="mdl-textfield__input" type="text" id="details">
                 <label class="mdl-textfield__label" for="details">Details</label>
             </div>
-            <div id="initialsCheckboxes" class="mdl-typography--body-1"></div>
+            <div id="initialsCheckboxes" class="checkbox-container mdl-typography--body-1"></div>
         </div>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addEntry()">Add Entry</button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="calculateTotal()">Calculate Total</button>
         <div id="entries" class="mdl-typography--body-1"></div>
         <div id="results" class="mdl-typography--body-1"></div>
-        <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="downloadPDF()">Download PDF</button> -->
-        <button id="download-pdf">Download PDF</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="download-pdf">Download PDF</button>
     </div>
     <script>
         let entries = [];
@@ -95,13 +98,6 @@
 
         function displayInitials() {
             const initialsListDiv = document.getElementById('initialsList');
-            initialsListDiv.innerHTML = '<h2 class="mdl-typography--title">Initials</h2>';
-            initials.forEach(initial => {
-                const initialItem = document.createElement('div');
-                initialItem.textContent = initial;
-                initialsListDiv.appendChild(initialItem);
-            });
-
             const initialsCheckboxesDiv = document.getElementById('initialsCheckboxes');
             initialsCheckboxesDiv.innerHTML = '<h2 class="mdl-typography--title">Select Initials</h2>';
             initials.forEach(initial => {
@@ -140,7 +136,7 @@
                 detailsInput.value = '';
                 amountInput.parentElement.MaterialTextfield.change('');
                 detailsInput.parentElement.MaterialTextfield.change('');
-                document.querySelectorAll('#initialsCheckboxes input:checked').forEach(cb => cb.checked = false);
+                document.querySelectorAll('#initialsCheckboxes input:checked').forEach(cb => {cb.parentElement.classList.remove("is-checked")});
             } else {
                 alert("Please enter a valid amount, details, and select at least one initial.");
             }
@@ -154,15 +150,15 @@
                 entryDiv.className = 'entry-item';
                 const entryText = document.createElement('div');
                 entryText.className = 'entry-text';
-                entryText.textContent = `Entry ${index + 1}: Amount: $${entry.amount.toFixed(2)}, Details: ${entry.details}, Initials: ${entry.initials}`;
+                entryText.textContent = `Record ${index + 1}: $${entry.amount.toFixed(2)}, Note: ${entry.details}, Split b/w: ${entry.initials}`;
                 
                 const editButton = document.createElement('button');
-                editButton.className = 'mdl-button mdl-js-button mdl-button--icon';
+                editButton.className = 'mdl-button mdl-js-button';
                 editButton.innerHTML = '<i class="material-icons">edit</i>';
                 editButton.onclick = () => editEntry(index);
                 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'mdl-button mdl-js-button mdl-button--icon';
+                deleteButton.className = 'mdl-button mdl-js-button';
                 deleteButton.innerHTML = '<i class="material-icons">delete</i>';
                 deleteButton.onclick = () => deleteEntry(index);
 
@@ -176,7 +172,7 @@
         function editEntry(index) {
             const entry = entries[index];
             const newAmount = prompt("Enter new amount:", entry.amount);
-            const newDetails = prompt("Enter new details:", entry.details);
+            const newDetails = prompt("Enter new notes:", entry.details);
             const newInitials = prompt("Enter new initials (e.g., A,B,C):", entry.initials);
 
             if (newAmount !== null && newDetails !== null && newInitials !== null) {
@@ -224,17 +220,6 @@
             }
         }
 
-        function downloadPDF() {
-            const element = document.createElement('div');
-            const entriesDiv = document.getElementById('entries').cloneNode(true);
-            const resultsDiv = document.getElementById('results').cloneNode(true);
-            
-            element.appendChild(entriesDiv);
-            element.appendChild(resultsDiv);
-
-            html2pdf().from(element).save('bill_splitter.pdf');
-        }
-
         document.getElementById('download-pdf').addEventListener('click', function() {
             const element = document.createElement('div');
             const entriesDiv = document.getElementById('entries').cloneNode(true);
@@ -249,4 +234,3 @@
     </script>
 </body>
 </html>
-
