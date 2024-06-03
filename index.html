@@ -30,10 +30,11 @@
             margin-top: 20px;
         }
         .mdl-textfield {
-            width: 100%;
+            width: 70%;
         }
         .mdl-button {
-            margin-top: 10px;
+            margin-top: 0px;
+            margin-left: 10px;
         }
         .entry-item {
             display: flex;
@@ -52,14 +53,17 @@
 </head>
 <body>
     <div class="container mdl-shadow--2dp">
-        <h1 class="mdl-typography--display1">Bill Splitter</h1>
+        <h2 class="mdl-typography--display1">Bill Splitter</h2>
+
         <div class="entry">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="newInitial">
-                <label class="mdl-textfield__label" for="newInitial">Add Name</label>
+                <label class="mdl-textfield__label" for="newInitial">Add all the people you'd be spliting between...</label>
             </div>
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addInitial()">Add</button>
         </div>
+
+        <hr />
         <div id="initialsList" class="mdl-typography--body-1"></div>
         <div class="entry">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -72,10 +76,12 @@
             </div>
             <div id="initialsCheckboxes" class="checkbox-container mdl-typography--body-1"></div>
         </div>
+        <hr />
+
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addEntry()">Add Entry</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="calculateTotal()">Calculate Total</button>
         <div id="entries" class="mdl-typography--body-1"></div>
         <div id="results" class="mdl-typography--body-1"></div>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="calculateTotal()">Calculate Total</button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="download-pdf">Download PDF</button>
     </div>
     <script>
@@ -145,28 +151,66 @@
         function displayEntries() {
             const entriesDiv = document.getElementById('entries');
             entriesDiv.innerHTML = '<h2 class="mdl-typography--title">Entries</h2>';
+            
+            const table = document.createElement('table');
+            table.className = 'mdl-data-table mdl-js-data-table mdl-shadow--2dp';
+            
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            const headers = ['Name', 'Details', 'Amount', '', ''];
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.className = 'mdl-data-table__cell--non-numeric';
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            
+            const tbody = document.createElement('tbody');
             entries.forEach((entry, index) => {
-                const entryDiv = document.createElement('div');
-                entryDiv.className = 'entry-item';
-                const entryText = document.createElement('div');
-                entryText.className = 'entry-text';
-                entryText.textContent = `Record ${index + 1}: $${entry.amount.toFixed(2)}, Note: ${entry.details}, Split b/w: ${entry.initials}`;
+                const row = document.createElement('tr');
+
+                const initialsCell = document.createElement('td');
+                initialsCell.className = 'mdl-data-table__cell--non-numeric';
+                initialsCell.textContent = entry.initials;
+
+                const detailsCell = document.createElement('td');
+                detailsCell.className = 'mdl-data-table__cell--non-numeric';
+                detailsCell.textContent = entry.details;
                 
+                const amountCell = document.createElement('td');
+                amountCell.className = 'mdl-data-table__cell--non-numeric';
+                amountCell.textContent = `$${entry.amount.toFixed(2)}`;
+                
+                const editCell = document.createElement('td');
                 const editButton = document.createElement('button');
-                editButton.className = 'mdl-button mdl-js-button';
+                // editButton.className = 'mdl-button mdl-js-button mdl-button--icon';
                 editButton.innerHTML = '<i class="material-icons">edit</i>';
                 editButton.onclick = () => editEntry(index);
+                editCell.appendChild(editButton);
                 
+                const deleteCell = document.createElement('td');
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'mdl-button mdl-js-button';
+                // deleteButton.className = 'mdl-button mdl-js-button mdl-button--icon';
                 deleteButton.innerHTML = '<i class="material-icons">delete</i>';
                 deleteButton.onclick = () => deleteEntry(index);
-
-                entryDiv.appendChild(entryText);
-                entryDiv.appendChild(editButton);
-                entryDiv.appendChild(deleteButton);
-                entriesDiv.appendChild(entryDiv);
+                deleteCell.appendChild(deleteButton);
+                
+                row.appendChild(initialsCell);
+                row.appendChild(detailsCell);
+                row.appendChild(amountCell);
+                row.appendChild(editCell);
+                row.appendChild(deleteCell);
+                
+                tbody.appendChild(row);
             });
+            
+            table.appendChild(tbody);
+            entriesDiv.appendChild(table);
+            componentHandler.upgradeElement(table);  // Upgrade the table element to MDL
         }
 
         function editEntry(index) {
