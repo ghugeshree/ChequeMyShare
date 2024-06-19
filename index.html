@@ -3,404 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bill Splitter</title>
+    <title>ChequeMyShare</title>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="styles.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-
-    <style>
-        body {
-            font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            padding: 20px;
-            background-color:#a0cea1;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .entry {
-            margin-bottom: 20px;
-        }
-        #results, #entries {
-            margin-top: 20px;
-        }
-        .mdl-textfield {
-            width: 70%;
-        }
-        .mdl-button {
-            margin-top: 0px;
-            margin-left: 10px;
-        }
-        .entry-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-        }
-        .entry-text {
-            flex: 1;
-        }
-        .checkbox-label {
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-            padding-left: 35px; /* Adjust space for the checkbox */
-            margin-right: 20px; /* Adjust spacing between checkboxes */
-            line-height: 24px;
-        }
-
-        .checkbox-label input {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .checkbox-custom {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 24px; /* Size of the checkbox */
-            height: 24px; /* Size of the checkbox */
-            border: 2px solid #757575; /* Border color */
-            border-radius: 50%; /* Rounded shape */
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .checkbox-custom::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px; /* Size of the checkmark */
-            height: 12px; /* Size of the checkmark */
-            background-color: transparent;
-            border-radius: 50%;
-            border: 2px solid #fff; /* Checkmark color */
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-        }
-
-        .checkbox-label input:checked + .checkbox-custom::after {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1); /* Scale to show the checkmark */
-        }
-
-        .checkbox-label:hover .checkbox-custom {
-            border-color: #2ba72f; /* Hovered border color */
-        }
-
-        .checkbox-label:hover input:checked + .checkbox-custom {
-            background-color: #2ba72f; /* Hovered background color */
-        }
-
-        .checkbox-label input:checked + .checkbox-custom {
-            background-color: #2ba72f; /* Checked background color */
-            border-color: #2ba72f; /* Checked border color */
-        }
-
-
-        .download-btn {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .download-btn .mdl-button {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <div class="container mdl-shadow--2dp">
-        <h2 class="mdl-typography--display1">Bill Splitter</h2>
-
-        <div class="entry">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="newInitial">
-                <label class="mdl-textfield__label" for="newInitial">Add all the people you'd be splitting between...</label>
-            </div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addInitial()">Add</button>
+        <div class="header">
+            <img src="assets/logo.png" alt="Logo" class="logo" width="10%">
+            <h2 class="heading mdl-typography--display1">ChequeMyShare</h2>
         </div>
+        
 
-        <hr />
-        <div id="initialsList" class="mdl-typography--body-1"></div>
-        <div class="entry">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="details">
-                <label class="mdl-textfield__label" for="details">Details</label>
+        <section class="mdl-card mdl-shadow--2dp section-card half-width">
+            <h3 class="mdl-typography--headline">Add Name</h3>
+            <div class="entry">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input text-input" type="text" id="newInitial">
+                    <label class="mdl-textfield__label text-input" for="newInitial">Name(s) of people you'd be splitting with.</label>
+                </div>
             </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="amount">
-                <label class="mdl-textfield__label" for="amount">Amount</label>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="addInitial()">Add</button>
+
+        </section>
+
+        <section class="mdl-card mdl-shadow--2dp section-card half-width">
+            <h3 class="mdl-typography--headline">Add Entry</h3>
+            <div id="initialsList" class="mdl-typography--body-1"></div>
+            <div class="entry">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input text-input" type="text" id="details">
+                    <label class="mdl-textfield__label" for="details">Details</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input text-input" type="text" id="amount">
+                    <label class="mdl-textfield__label" for="amount">Amount</label>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="addEntry()">Add Entry</button>
+
+                <div id="initialsCheckboxes" class="checkbox-container mdl-typography--body-1"></div>
             </div>
+        </section>
 
-            <div id="initialsCheckboxes" class="checkbox-container mdl-typography--body-1">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-ALL">
-                    <input type="checkbox" id="checkbox-ALL" class="mdl-checkbox__input" value="ALL">
-                    <span class="mdl-checkbox__label">ALL</span>
-                </label>
+        <section class="mdl-card mdl-shadow--2dp section-card full-width">
+            <h3 class="mdl-typography--headline">Entries</h3>
+            <div id="entries" class="mdl-typography--body-1"></div>
+        </section>
+
+        <section class="mdl-card mdl-shadow--2dp section-card full-width">
+            <h3 class="mdl-typography--headline">Results</h3>
+            <div id="results" class="mdl-typography--body-1"></div>
+            <div class="download-btn">
+                <div>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="calculateTotal()">Calculate Total</button>
+                </div>
+                <div>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="download-pdf">Download PDF</button>
+                </div>
             </div>
-        </div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addEntry()">Add Entry</button>
-        <div id="entries" class="mdl-typography--body-1"></div>
-        <div id="results" class="mdl-typography--body-1"></div>
-
-        <hr />
-        <div class="download-btn">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="calculateTotal()">Calculate Total</button>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="download-pdf">Download PDF</button>
-        </div>
-        </div>
-    <script>
-        let entries = [];
-        let initials = [];
-
-        function addInitial() {
-            const initialInput = document.getElementById('newInitial');
-            const initial = initialInput.value.trim().toUpperCase();
-
-            if (initial && !initials.includes(initial)) {
-                initials.push(initial);
-                displayInitials();
-                initialInput.value = '';
-                initialInput.parentElement.MaterialTextfield.change('');
-            } else {
-                alert("Please enter a valid and unique initial.");
-            }
-        }
-
-        function displayInitials() {
-            const initialsCheckboxesDiv = document.getElementById('initialsCheckboxes');
-            initialsCheckboxesDiv.innerHTML = ''; // Clear previous checkboxes
-
-            // Add the ALL checkbox
-            const allCheckboxLabel = document.createElement('label');
-            allCheckboxLabel.className = 'checkbox-label';
-            allCheckboxLabel.innerHTML = `
-                ALL
-                <input type="checkbox" class="checkbox-input" id="checkbox-ALL" value="ALL">
-                <span class="checkbox-custom"></span>
-            `;
-            initialsCheckboxesDiv.appendChild(allCheckboxLabel);
-
-            // Add dynamically created checkboxes
-            initials.forEach(initial => {
-                const checkboxLabel = document.createElement('label');
-                checkboxLabel.className = 'checkbox-label';
-                checkboxLabel.innerHTML = `
-                    ${initial}
-                    <input type="checkbox" class="checkbox-input" value="${initial}">
-                    <span class="checkbox-custom"></span>
-                `;
-
-                checkboxLabel.addEventListener('click', function() {
-                    const checkboxInput = this.querySelector('.checkbox-input');
-                    checkboxInput.checked = !checkboxInput.checked;
-                });
-
-                initialsCheckboxesDiv.appendChild(checkboxLabel);
-            });
-
-            componentHandler.upgradeDom(); // Upgrade MDL components
-        }
-
-
-        function addEntry() {
-            const amountInput = document.getElementById('amount');
-            const detailsInput = document.getElementById('details');
-            let amountInputValue = amountInput.value.trim();
-            const details = detailsInput.value.trim();
-            let amount = 0;
-
-            // Check if amount contains + or - and perform calculation
-            if (amountInputValue.includes('+')) {
-                const parts = amountInputValue.split('+').map(part => parseFloat(part.trim()));
-                amount = parts.reduce((acc, val) => acc + val, 0);
-            } else if (amountInputValue.includes('-')) {
-                const parts = amountInputValue.split('-').map(part => parseFloat(part.trim()));
-                amount = parts.reduce((acc, val) => acc - val, 0);
-            } else {
-                amount = parseFloat(amountInputValue);
-            }
-
-            // Validate parsed amount
-            if (isNaN(amount) || !isFinite(amount)) {
-                alert("Please enter a valid numeric amount.");
-                return;
-            }
-
-            // Validate details and checked initials
-            const checkedInitials = Array.from(document.querySelectorAll('#initialsCheckboxes input:checked')).map(cb => cb.value);
-            if (details && checkedInitials.length > 0) {
-                entries.push({ amount, details, initials: checkedInitials.join(',') });
-                displayEntries();
-                amountInput.value = '';
-                detailsInput.value = '';
-                amountInput.parentElement.MaterialTextfield.change('');
-                detailsInput.parentElement.MaterialTextfield.change('');
-
-                // Uncheck all checkboxes
-                const checkboxes = document.querySelectorAll('#initialsCheckboxes input[type="checkbox"]');
-                checkboxes.forEach(cb => {
-                    cb.checked = false;
-                    cb.parentElement.classList.remove('is-checked'); // Remove MDL checked style
-                });
-
-            } else {
-                alert("Please enter valid details and select at least one initial.");
-            }
-        }
-
-
-        function displayEntries() {
-            const entriesDiv = document.getElementById('entries');
-            entriesDiv.innerHTML = '<h2 class="mdl-typography--title">Entries</h2>';
-            
-            const table = document.createElement('table');
-            table.className = 'mdl-data-table mdl-js-data-table mdl-shadow--2dp';
-            
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            
-            const headers = ['Name', 'Details', 'Amount', '', ''];
-            headers.forEach(headerText => {
-                const th = document.createElement('th');
-                th.className = 'mdl-data-table__cell--non-numeric';
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-            
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-            
-            const tbody = document.createElement('tbody');
-            entries.forEach((entry, index) => {
-                const row = document.createElement('tr');
-
-                const initialsCell = document.createElement('td');
-                initialsCell.className = 'mdl-data-table__cell--non-numeric';
-                initialsCell.textContent = entry.initials;
-
-                const detailsCell = document.createElement('td');
-                detailsCell.className = 'mdl-data-table__cell--non-numeric';
-                detailsCell.textContent = entry.details;
-                
-                const amountCell = document.createElement('td');
-                amountCell.className = 'mdl-data-table__cell--non-numeric';
-                amountCell.textContent = `$${entry.amount.toFixed(2)}`;
-                
-                const editCell = document.createElement('td');
-                const editButton = document.createElement('button');
-                editButton.innerHTML = '<i class="material-icons">edit</i>';
-                editButton.onclick = () => editEntry(index);
-                editCell.appendChild(editButton);
-                
-                const deleteCell = document.createElement('td');
-                const deleteButton = document.createElement('button');
-                deleteButton.innerHTML = '<i class="material-icons">delete</i>';
-                deleteButton.onclick = () => deleteEntry(index);
-                deleteCell.appendChild(deleteButton);
-
-                row.appendChild(initialsCell);
-                row.appendChild(detailsCell);
-                row.appendChild(amountCell);
-                row.appendChild(editCell);
-                row.appendChild(deleteCell);
-                
-                tbody.appendChild(row);
-            });
-            
-            table.appendChild(tbody);
-            entriesDiv.appendChild(table);
-            componentHandler.upgradeElement(table);  // Upgrade the table element to MDL
-        }
-
-        function editEntry(index) {
-            const entry = entries[index];
-            const newAmount = prompt("Enter new amount:", entry.amount);
-            const newDetails = prompt("Enter new notes:", entry.details);
-            const newInitials = prompt("Enter new initials (e.g., A,B,C):", entry.initials);
-
-            if (newAmount !== null && newDetails !== null && newInitials !== null) {
-                const amount = parseFloat(newAmount);
-                const details = newDetails.trim();
-                const initials = newInitials.trim();
-
-                if (!isNaN(amount) && details && initials) {
-                    entries[index] = { amount, details, initials };
-                    displayEntries();
-                } else {
-                    alert("Please enter a valid amount, details, and initials.");
-                }
-            }
-        }
-
-        function deleteEntry(index) {
-            entries.splice(index, 1);
-            displayEntries();
-        }
-
-        function calculateTotal() {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
-            let totals = {};
-            let masterTotal = 0;
-            
-            initials.forEach(initial => {
-                totals[initial] = 0;
-            });
-
-            entries.forEach(entry => {
-                const { amount, initials: entryInitials } = entry;
-                let initialsArray = entryInitials.split(',').map(initial => initial.trim()).filter(initial => initial);
-
-                if (initialsArray.includes('ALL')) {
-                    // Use all defined initials except 'ALL'
-                    initialsArray = initials.filter(initial => initial !== 'ALL');
-                }
-
-                if (initialsArray.length === 0) {
-                    alert("No valid initials are present to split the amount. Please add valid initials.");
-                    return;
-                }
-
-                const share = amount / initialsArray.length;
-
-                initialsArray.forEach(initial => {
-                    totals[initial] += share;
-                });
-            });
-
-            resultsDiv.innerHTML = '<h2 class="mdl-typography--title">Totals</h2>';
-            for (const [initial, total] of Object.entries(totals)) {
-                const result = document.createElement('div');
-                result.textContent = `${initial}: $${total.toFixed(2)}`;
-                resultsDiv.appendChild(result);
-                masterTotal += total;
-            }
-
-            const total = document.createElement('div');
-            total.textContent = `Total = $${masterTotal.toFixed(2)}`;
-            resultsDiv.appendChild(total);
-        }
-
-
-        document.getElementById('download-pdf').addEventListener('click', function() {
-            const element = document.createElement('div');
-            const entriesDiv = document.getElementById('entries').cloneNode(true);
-            const resultsDiv = document.getElementById('results').cloneNode(true);
-            
-            element.appendChild(entriesDiv);
-            element.appendChild(resultsDiv);
-
-            html2pdf().from(element).save('bill_splitter.pdf');
-        });
-    </script>
+        </section>
+    </div>
+    <script src="scripts.js"></script>
 </body>
 </html>

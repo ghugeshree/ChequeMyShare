@@ -1,0 +1,126 @@
+body {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #eef5ea;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgb(232, 244, 229);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    justify-content: center;
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Align items vertically center */
+    background-color: #cbe6c8; /* Optional: Set background color for header */
+    padding: 20px; /* Optional: Add padding for header */
+    border-radius: 8px; /* Optional: Add border radius */
+}
+
+.logo {
+    width: 50px; /* Adjust width as per your logo size */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add margin for spacing */
+}
+
+.heading {
+    margin: 0; /* Remove default margin */
+}
+
+.entry {
+    margin-bottom: 20px;
+}
+
+#results, #entries {
+    margin-top: 20px;
+}
+
+.mdl-textfield {
+    width: 70%;
+}
+
+.mdl-button {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-left: 33% ;
+    background-color: #3ab674;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.section-card h3 {
+    margin-top: 0;
+}
+
+.half-width {
+    display: inline-block;
+    width: 49.7%;
+    height: 300px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.checkbox-circle {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.checkbox-circle-input {
+    display: none;
+    margin-top: auto;
+}
+
+.checkbox-circle-label {
+    width: 135%;
+    background-color: #e0e0e0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.checkbox-circle-input:checked + .checkbox-circle-label {
+    background-color: #6ce149;
+    color: #fff;
+}
+
+.checkbox-circle-label::after {
+    /* content: '✔'; */
+    font-size: 16px;
+    display: none;
+    margin-top: auto;
+}
+
+.checkbox-circle-input:checked + .checkbox-circle-label::after {
+    display: block;
+}
+
+.text-input {
+   width: 120%; 
+}
+
+.download-btn {
+    padding: 0%;
+    display: flex;
+    justify-content: flex-end;
+}
