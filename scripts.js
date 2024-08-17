@@ -245,9 +245,13 @@ function calculateTotal() {
 
 document.getElementById('download-pdf').addEventListener('click', function() {
     const element = document.createElement('div');
+    const shoppedAtPlace = document.getElementById('placeShoppedName')
+    const shoppedAtDate = document.getElementById('placeShoppedDate')
     const entriesDiv = document.getElementById('entries').cloneNode(true);
     const resultsDiv = document.getElementById('results').cloneNode(true);
     
+    element.appendChild(shoppedAtPlace);
+    element.appendChild(shoppedAtDate);
     element.appendChild(entriesDiv);
     element.appendChild(resultsDiv);
 
