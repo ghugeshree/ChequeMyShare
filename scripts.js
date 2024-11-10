@@ -261,7 +261,7 @@ document.getElementById('download-pdf').addEventListener('click', function() {
     const day = String(now.getDate()).padStart(2, '0');
     
     const timestamp = `${year}-${month}-${day}`;
-    const filename = `ChequeMyShare_${shoppedAtPlace}_${timestamp}.pdf`;
+    const filename = `ChequeMyShare_${timestamp}.pdf`;
     
     html2pdf().from(element).save(filename);
 });
